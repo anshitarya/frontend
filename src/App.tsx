@@ -8,6 +8,13 @@ import { apiService } from './services/api';
 function App() {
   const [currentPage, setCurrentPage] = useState('inbox');
   const [isHealthy, setIsHealthy] = useState<boolean | null>(null);
+  
+  // Debug: Log environment on mount
+  useEffect(() => {
+    console.log('=== APP ENV DEBUG ===');
+    console.log('REACT_APP_API_URL env:', process.env.REACT_APP_API_URL);
+    console.log('Node ENV:', process.env.NODE_ENV);
+  }, []);
   const apiUrl = process.env.REACT_APP_API_URL || 'https://review-management-system-x8un.onrender.com/api';
 
   useEffect(() => {
