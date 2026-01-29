@@ -12,11 +12,18 @@ class ApiService {
   private apiKey: string = 'dev-api-key-change-me'; // Default for dev
 
   constructor(baseURL: string = process.env.REACT_APP_API_URL || 'https://review-management-system-x8un.onrender.com/api') {
+    // Ensure baseURL ends with /api if it doesn't already
+    let finalURL = baseURL;
+    if (!finalURL.endsWith('/api')) {
+      finalURL = finalURL.replace(/\/+$/, '') + '/api'; // Remove trailing slashes and add /api
+    }
+    
     // Log the API URL for debugging
-    console.log('API Service initialized with baseURL:', baseURL);
+    console.log('API Service initialized with baseURL:', finalURL);
+    console.log('Original URL:', baseURL);
     
     this.api = axios.create({
-      baseURL,
+      baseURL: finalURL,
       timeout: 30000,
       headers: {
         'Content-Type': 'application/json',
