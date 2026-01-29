@@ -8,14 +8,6 @@ import { apiService } from './services/api';
 function App() {
   const [currentPage, setCurrentPage] = useState('inbox');
   const [isHealthy, setIsHealthy] = useState<boolean | null>(null);
-  
-  // Debug: Log environment on mount
-  useEffect(() => {
-    console.log('=== APP ENV DEBUG ===');
-    console.log('REACT_APP_API_URL env:', process.env.REACT_APP_API_URL);
-    console.log('Node ENV:', process.env.NODE_ENV);
-  }, []);
-  const apiUrl = process.env.REACT_APP_API_URL || 'https://review-management-system-x8un.onrender.com/api';
 
   useEffect(() => {
     // Check backend health on startup
@@ -55,8 +47,7 @@ function App() {
             <p className="text-gray-600 mb-4">
               Cannot connect to the API server. Please ensure the backend is running at:
             </p>
-            <code className="bg-gray-100 px-3 py-1 rounded text-sm break-all">{apiUrl}</code>
-            <p className="text-gray-500 text-xs mt-4 mb-4">API URL: {process.env.REACT_APP_API_URL || 'Using fallback'}</p>
+            <code className="bg-gray-100 px-3 py-1 rounded text-sm break-all">https://review-management-system-x8un.onrender.com/api</code>
             <div className="mt-6">
               <button
                 onClick={() => window.location.reload()}

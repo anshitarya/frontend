@@ -11,19 +11,11 @@ class ApiService {
   private api: AxiosInstance;
   private apiKey: string = 'dev-api-key-change-me'; // Default for dev
 
-  constructor(baseURL: string = 'https://review-management-system-x8un.onrender.com/api') {
-    // Use the provided baseURL or the production backend URL
-    let finalURL = baseURL;
-    if (!finalURL.endsWith('/api')) {
-      finalURL = finalURL.replace(/\/+$/, '') + '/api'; // Remove trailing slashes and add /api
-    }
-    
-    // Log the API URL for debugging
-    console.log('🔗 API Service initialized with baseURL:', finalURL);
-    console.log('📍 Environment REACT_APP_API_URL:', process.env.REACT_APP_API_URL || 'NOT SET');
+  constructor() {
+    const baseURL = 'https://review-management-system-x8un.onrender.com/api';
     
     this.api = axios.create({
-      baseURL: finalURL,
+      baseURL: baseURL,
       timeout: 30000,
       headers: {
         'Content-Type': 'application/json',
@@ -103,21 +95,7 @@ class ApiService {
   }
 }
 
-// Lazy initialization to ensure env vars are loaded
-let apiServiceInstance: ApiService | null = null;
+// Single instance
+const apiService = new ApiService();
 
-export function getApiService(): ApiService {
-  if (!apiServiceInstance) {
-    const apiUrl = process.env.REACT_APP_API_URL || 'https://review-management-system-x8un.onrender.com/api';
-    console.log('Initializing ApiService with URL:', apiUrl);
-    apiServiceInstance = new ApiService(apiUrl);
-  }
-  return apiServiceInstance;
-}
-
-// For backwards compatibility, export a getter
-export const apiService = new Proxy({} as ApiService, {
-  get: (target, prop) => {
-    return getApiService()[prop as keyof ApiService];
-  },
-});
+export { apiService };
