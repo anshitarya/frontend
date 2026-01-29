@@ -11,7 +11,10 @@ class ApiService {
   private api: AxiosInstance;
   private apiKey: string = 'dev-api-key-change-me'; // Default for dev
 
-  constructor(baseURL: string = process.env.REACT_APP_API_URL || 'http://localhost:8000/api') {
+  constructor(baseURL: string = process.env.REACT_APP_API_URL || 'https://review-management-system-x8un.onrender.com/api') {
+    // Log the API URL for debugging
+    console.log('API Service initialized with baseURL:', baseURL);
+    
     this.api = axios.create({
       baseURL,
       timeout: 30000,
