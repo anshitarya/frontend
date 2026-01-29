@@ -96,4 +96,21 @@ class ApiService {
   }
 }
 
-export const apiService = new ApiService();
+// Lazy initialization to ensure env vars are loaded
+let apiServiceInstance: ApiService | null = null;
+
+export function getApiService(): ApiService {
+  if (!apiServiceInstance) {
+    const apiUrl = process.env.REACT_APP_API_URL || 'https://review-management-system-x8un.onrender.com/api';
+    console.log('Initializing ApiService with URL:', apiUrl);
+    apiServiceInstance = new ApiService(apiUrl);
+  }
+  return apiServiceInstance;
+}
+
+// For backwards compatibility, export a getter
+export const apiService = new Proxy({} as ApiService, {
+  get: (target, prop) => {
+    return getApiService()[prop as keyof ApiService];
+  },
+});
